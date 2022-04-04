@@ -20,23 +20,26 @@ function nbMonths(
   percentLossByMonth
 ) {
   //your code here
-  let months = 1;
-while (savingperMonth + startPriceOld <= startPriceNew)  {
-startPriceOld = startPriceOld - (percentLossByMonth * startPriceOld)/100;
+  let months = 0;
+  let leftOver = 0;
+  let saving = 0;
+ do {
+    months++;
+    saving += months * savingperMonth;
+    if (months % 2 === 0 ){
+      percentLossByMonth +=  percentLossByMonth + (percentLossByMonth/100 * 0.5);
+    }
 
-startPriceNew = startPriceNew - (percentLossByMonth * startPriceNew)/100;
+    startPriceOld -= (percentLossByMonth/100 * startPriceOld);
 
-savingperMonth += 1000;
-if (months % 2 === 0) percentLossByMonth +=  0.5;
+    startPriceNew -= (percentLossByMonth/100 * startPriceNew);      
 
+    leftOver = saving + startPriceOld - startPriceNew;
+    
+   
+  } while (saving + startPriceOld <= startPriceNew) 
 
-  months ++;
+    return [months, leftOver];
 }
-
-let leftOver = savingperMonth + startPriceOld - startPriceNew;
-
-return [months, leftOver];
-}
-
 
 console.log(nbMonths(2000, 8000, 1000, 1.5));
